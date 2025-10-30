@@ -42,3 +42,18 @@ class User(AbstractUser):
             return 88.36 + (13.4 * self.weight) + (4.8 * self.height) - (5.7 * self.age)
         else:
             return 447.6 + (9.2 * self.weight) + (3.1 * self.height) - (4.3 * self.age)
+
+    def get_tdee(self):
+        """
+        Returns daily norm of calories (TDEE) with activity level.
+        """
+        bmr = self.get_bmr()
+        if not bmr:
+            return None
+
+        activity_coef = {
+            "low": 1.2,
+            "medium": 1.55,
+            "high": 1.725,
+        }
+        return round(bmr * activity_coef.get(self.activity_level, 1.2))
