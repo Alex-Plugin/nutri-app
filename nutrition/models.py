@@ -70,3 +70,25 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Product(models.Model):
+    """Represents a food product with nutritional values per 100 g."""
+    name = models.CharField(max_length=255, unique=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
+
+    calories = models.FloatField(help_text="kcal per 100g")
+    proteins = models.FloatField(help_text="grams per 100g")
+    fats = models.FloatField(help_text="grams per 100g")
+    carbs = models.FloatField(help_text="grams per 100g")
+
+    class Meta:
+        verbose_name = "product"
+        verbose_name_plural = "products"
+        ordering = ["name"]
+
+    def __str__(self):
+        return f"{self.name} ({self.calories} kcal)"
+
+    def get_absolute_url(self):
+        return reverse("nutrition:product-detail", kwargs={"pk": self.pk})
