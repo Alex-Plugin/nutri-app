@@ -57,3 +57,16 @@ class User(AbstractUser):
             "high": 1.725,
         }
         return round(bmr * activity_coef.get(self.activity_level, 1.2))
+
+
+class Category(models.Model):
+    """Represents a product category (e.g. Fruits, Vegetables, Meat)."""
+    name = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        verbose_name = "category"
+        verbose_name_plural = "categories"
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
