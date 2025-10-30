@@ -92,3 +92,26 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("nutrition:product-detail", kwargs={"pk": self.pk})
+
+
+class Meal(models.Model):
+    """Represents a logged meal — what product, how much, and when."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="meals")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="meals")
+    quantity = models.FloatField(help_text="Quantity in grams")
+    date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "meal"
+        verbose_name_plural = "meals"
+        ordering = ["-date"]
+
+    def __str__(self):
+        return f"{self.product.name} ({self.quantity} g on {self.date})"
+
+    def total_calories(self):
+        """Calculate total calories for this meal instance."""
+        return round(self.product.calories * self.quantity / 100, 2)
+
+    def get_absolute_url(self):
+        return reverse("nutrition:meal-detail", kwargs={"pk": self.pk})
