@@ -31,3 +31,14 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
 
+    def get_bmr(self):
+        """
+        Method counting basal metabolic rate (BMR) by Harris-Benedict equation.
+        """
+        if not all([self.age, self.height, self.weight]):
+            return None
+
+        if self.gender == "male":
+            return 88.36 + (13.4 * self.weight) + (4.8 * self.height) - (5.7 * self.age)
+        else:
+            return 447.6 + (9.2 * self.weight) + (3.1 * self.height) - (4.3 * self.age)
