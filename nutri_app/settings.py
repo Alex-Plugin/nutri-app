@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-UTH_USER_MODEL = "nutrition.User"
+AUTH_USER_MODEL = "nutrition.Customer"
 
 LOGIN_REDIRECT_URL = "/"
 

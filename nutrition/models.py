@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 
 
-class User(AbstractUser):
+class Customer(AbstractUser):
 
     GENDER_CHOICES = [
         ("male", "Male"),
@@ -96,7 +96,7 @@ class Product(models.Model):
 
 class Meal(models.Model):
     """Represents a logged meal — what product, how much, and when."""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="meals")
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="meals")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="meals")
     quantity = models.FloatField(help_text="Quantity in grams")
     date = models.DateField(auto_now_add=True)
