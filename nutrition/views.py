@@ -165,6 +165,37 @@ class ProductDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("nutrition:product-list")
 
 
+class MealListView(LoginRequiredMixin, generic.ListView):
+    model = Meal
+    context_object_name = "meal_list"
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(customer=self.request.user) # filters only meals of each user, not all meals of all users!
+        form = MealSearchForm(self.request.GET)
+        if form.is_valid():
+            date = form.cleaned_data["date"]
+            if date:
+                queryset = queryset.filter(date__icontains=date)
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(MealListView, self).get_context_data(**kwargs)
+        date = self.request.GET.get("date", "")
+        context["search_form"] = MealSearchForm(
+            initial={"date": date}
+        )
+        return context
+
+
+class MealDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Meal
+    queryset = Meal.objects.all().select_related("product", "customer")
+
+
+
+
+
 
 
 
