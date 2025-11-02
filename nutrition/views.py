@@ -77,6 +77,33 @@ class CustomerDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("nutrition:customer-list")
 
 
+class CategoryListView(LoginRequiredMixin, generic.ListView):
+    model = Category
+    context_object_name = "category_list"
+    paginate_by = 5
+
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        form = CategorySearchForm(self.request.GET)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+        return queryset
+
+    def get_context_data(
+        self, *, object_list=None, **kwargs
+    ):
+        context = super(CategoryListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = CategorySearchForm(
+            initial={"name": name}
+        )
+        return context
+
+
+
 
 
 
