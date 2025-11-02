@@ -193,6 +193,21 @@ class MealDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = Meal.objects.all().select_related("product", "customer")
 
 
+class MealCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Meal
+    fields = "__all__"
+    success_url = reverse_lazy("nutrition:meal-list")
+
+
+class MealUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Meal
+    fields = "__all__"
+    success_url = reverse_lazy("nutrition:meal-list")
+
+
+class MealDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Meal
+    success_url = reverse_lazy("nutrition:meal-list")
 
 
 
