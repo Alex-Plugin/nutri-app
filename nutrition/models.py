@@ -31,6 +31,9 @@ class Customer(AbstractUser):
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
 
+    def get_absolute_url(self):
+        return reverse("nutrition:customer-detail", kwargs={"pk": self.pk})
+
     def get_bmr(self):
         """
         Method counting basal metabolic rate (BMR) by Harris-Benedict equation.
