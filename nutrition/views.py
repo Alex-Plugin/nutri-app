@@ -176,7 +176,7 @@ class MealListView(LoginRequiredMixin, generic.ListView):
         if form.is_valid():
             date = form.cleaned_data["date"]
             if date:
-                queryset = queryset.filter(date__icontains=date)
+                queryset = queryset.filter(date=date)
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -208,11 +208,3 @@ class MealUpdateView(LoginRequiredMixin, generic.UpdateView):
 class MealDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Meal
     success_url = reverse_lazy("nutrition:meal-list")
-
-
-
-
-
-
-
-
