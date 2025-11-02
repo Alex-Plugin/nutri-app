@@ -61,6 +61,21 @@ class CustomerDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = Customer.objects.all().prefetch_related("meals__product")
 
 
+class CustomerCreateView(generic.CreateView):
+    model = Customer
+    form_class = CustomerCreationForm
+
+
+class CustomerUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Customer
+    form_class = CustomerUpdateForm
+    success_url = reverse_lazy("nutrition:customer-list")
+
+
+class CustomerDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Customer
+    success_url = reverse_lazy("nutrition:customer-list")
+
 
 
 
