@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <h1>
+      Customer List
+      <a href="{% url 'nutrition:customer-create' %}" class="btn btn-primary link-to-page">
+        Create
+      </a>
+    </h1>
+    {% include "includes/search_form.html" %}
+
+    {% if customer_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Age</th>
+        <th>Height</th>
+        <th>Weight</th>
+        <th>Gender</th>
+        <th>Activity level</th>
+      </tr>
+    {% for customer in customer_list %}
+      <tr>
+        <td>{{ customer.id }}</td>
+        <td>
+          <a href="{{ customer.get_absolute_url }}">
+            {{ customer.username }}
+            {% if customer == request.user %} (Me){% endif %}
+          </a>
+        </td>
+        <td>{{ customer.first_name }}</td>
+        <td>{{ customer.last_name }}</td>
+        <td>{{ customer.age }}</td>
+        <td>{{ customer.height }}</td>
+        <td>{{ customer.weight }}</td>
+        <td>{{ customer.gender }}</td>
+        <td>{{ customer.activity_level }}</td>
+      </tr>
+    {% endfor %}
+
+    </table>
+    {% else %}
+      <p>There are no customers in the app database.</p>
+    {% endif %}
+{% endblock %}
