@@ -148,6 +148,21 @@ class ProductDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = Product.objects.all().prefetch_related("meals")
 
 
+class ProductCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Product
+    fields = "__all__"
+    success_url = reverse_lazy("nutrition:product-list")
+
+
+class ProductUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Product
+    fields = "__all__"
+    success_url = reverse_lazy("nutrition:product-list")
+
+
+class ProductDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Product
+    success_url = reverse_lazy("nutrition:product-list")
 
 
 
