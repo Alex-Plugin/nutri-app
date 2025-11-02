@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block content %}
+  <h1>
+    Username: {{ customer.username }}
+    <a href="{% url 'nutrition:customer-delete' pk=customer.id %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+
+    <a href="{% url 'nutrition:customer-update' pk=customer.id %}" class="btn btn-secondary link-to-page">
+      Update customer data
+    </a>
+  </h1>
+
+  <p><strong>First name:</strong> {{ customer.first_name }}</p>
+  <p><strong>Last name:</strong> {{ customer.last_name }}</p>
+  <p><strong>Age:</strong> {{ customer.age }}</p>
+  <p><strong>Height:</strong> {{ customer.height }}</p>
+  <p><strong>Weight:</strong> {{ customer.weight }}</p>
+  <p><strong>Gender:</strong> {{ customer.gender }}</p>
+  <p><strong>Activity level:</strong> {{ customer.activity_level }}</p>
+
+
+  <div class="ml-3">
+    <h4>Meals</h4>
+
+    {% for meal in customer.meals.all %}
+        <hr>
+        <p><strong>Product:</strong> {{ meal.product.name }}</p>
+        <p><strong>Quantity:</strong> {{ meal.quantity }}</p>
+        <p><strong>Date:</strong> {{ meal.date|date:"d F Y" }}</p>
+        <p class="text-muted"><strong>Id:</strong> {{meal.id}}</p>
+
+    {% empty %}
+      <p>No meals!</p>
+    {% endfor %}
+  </div>
+{% endblock %}
