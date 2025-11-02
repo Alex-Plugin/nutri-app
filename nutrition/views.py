@@ -103,6 +103,22 @@ class CategoryListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
+class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Category
+    fields = "__all__"
+    success_url = reverse_lazy("nutrition:category-list")
+
+
+class CategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Category
+    fields = "__all__"
+    success_url = reverse_lazy("nutrition:category-list")
+
+
+class CategoryDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Category
+    success_url = reverse_lazy("nutrition:category-list")
+
 
 
 
