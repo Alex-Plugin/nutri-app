@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <h1>
+    Product list
+    <a href="{% url 'nutrition:product-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+  {% include "includes/search_form.html" %}
+  {% if product_list %}
+    <ul>
+      {% for product in product_list %}
+        <li>
+          <a href="{% url 'nutrition:product-detail' pk=product.id %}">{{ product.id }}</a>
+          {{ product.name }} ({{ product.category.name }})
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no products yet</p>
+  {% endif %}
+{% endblock %}
