@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <h1>
+    Category List
+    <a href="{% url 'nutrition:category-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+  {% include "includes/search_form.html" %}
+
+
+  {% if category_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+
+      {% for category in category_list %}
+        <tr>
+          <td>
+              {{ category.id }}
+          </td>
+          <td>
+              {{ category.name }}
+          </td>
+          <td>
+              <a href="{% url 'nutrition:category-update' pk=category.id %}">
+                Update
+              </a>
+            </td>
+            <td>
+              <a style="color: red"
+                href="{% url 'nutrition:category-delete' pk=category.id %}">
+                Delete
+              </a>
+            </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+      <p>There are no categories in the service.</p>
+  {% endif %}
+{% endblock %}
