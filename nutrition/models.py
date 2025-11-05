@@ -116,5 +116,14 @@ class Meal(models.Model):
         """Calculate total calories for this meal instance."""
         return round(self.product.calories * self.quantity / 100, 2)
 
+    def total_proteins(self):
+        return round(self.product.proteins * self.quantity / 100, 2)
+
+    def total_fats(self):
+        return round(self.product.fats * self.quantity / 100, 2)
+
+    def total_carbs(self):
+        return round(self.product.carbs * self.quantity / 100, 2)
+
     def get_absolute_url(self):
         return reverse("nutrition:meal-detail", kwargs={"pk": self.pk})
