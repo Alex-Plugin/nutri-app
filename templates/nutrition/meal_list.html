@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <h1>
+    Meal list
+    <a href="{% url 'nutrition:meal-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+  {% include "includes/search_form.html" %}
+
+{% if meal_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Date</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    {% for meal in meal_list %}
+      <tr>
+        <td>{{ meal.id }}</td>
+        <td>
+          <a href="{% url 'nutrition:product-detail' pk=meal.product.id %}">
+            {{ meal.product.name }}
+          </a>
+        </td>
+        <td>{{ meal.quantity }}</td>
+        <td>{{ meal.date|date:"Y-m-d" }}</td>
+        <td><a href="{% url 'nutrition:meal-update' pk=meal.id %}">Update</a></td>
+        <td>
+          <a href="{% url 'nutrition:meal-delete' pk=meal.id %}" style="color:red">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+
+    </table>
+  {% else %}
+    <p>You didn't add any meals yet</p>
+  {% endif %}
+{% endblock %}
