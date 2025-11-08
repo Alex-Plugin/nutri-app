@@ -12,7 +12,8 @@ from .forms import (
     MealSearchForm,
     ProductSearchForm,
     CategorySearchForm,
-    MealForm, ProductForm
+    MealForm,
+    ProductForm
 )
 
 

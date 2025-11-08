@@ -6,12 +6,43 @@ from django.core.exceptions import ValidationError
 from nutrition.models import Customer, Meal, Product, Category
 
 
-class CustomerCreationForm(forms.ModelForm):
-    pass
+def validate_age(age):
+    if age is not None and not (10 <= age <= 100):
+        raise ValidationError("Age must be between 10 and 100")
+    return age
+
+def validate_height(height):
+    if height is not None and not (50 <= height <= 220):
+        raise ValidationError("Height must be between 50 and 220 cm")
+    return height
+
+def validate_weight(weight):
+    if weight is not None and not (10 <= weight <= 300):
+        raise ValidationError("Weight must be between 10 and 300 kg")
+    return weight
 
 
-class CustomerUpdateForm(forms.ModelForm):
-    pass
+class BaseCustomerForm(forms.ModelForm):
+    def clean_age(self):
+        return validate_age(self.cleaned_data.get("age"))
+
+    def clean_height(self):
+        return validate_height(self.cleaned_data.get("height"))
+
+    def clean_weight(self):
+        return validate_weight(self.cleaned_data.get("weight"))
+
+
+class CustomerCreationForm(BaseCustomerForm, forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ("email", "age", "height", "weight",)
+
+
+class CustomerUpdateForm(BaseCustomerForm, forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ("email", "age", "height", "weight",)
 
 
 class ProductForm(forms.ModelForm):
