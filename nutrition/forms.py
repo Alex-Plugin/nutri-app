@@ -14,6 +14,20 @@ class CustomerUpdateForm(forms.ModelForm):
     pass
 
 
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ["name", "category", "calories", "proteins", "fats", "carbs"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "category": forms.Select(attrs={"class": "form-select"}),
+            "calories": forms.NumberInput(attrs={"class": "form-control", "min": 0}),
+            "proteins": forms.NumberInput(attrs={"class": "form-control", "min": 0}),
+            "fats": forms.NumberInput(attrs={"class": "form-control", "min": 0}),
+            "carbs": forms.NumberInput(attrs={"class": "form-control", "min": 0}),
+        }
+
+
 class MealForm(forms.ModelForm):
     class Meta:
         model = Meal

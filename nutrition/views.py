@@ -12,8 +12,7 @@ from .forms import (
     MealSearchForm,
     ProductSearchForm,
     CategorySearchForm,
-    MealForm
-
+    MealForm, ProductForm
 )
 
 
@@ -160,13 +159,13 @@ class ProductDetailView(LoginRequiredMixin, generic.DetailView):
 
 class ProductCreateView(LoginRequiredMixin, generic.CreateView):
     model = Product
-    fields = "__all__"
+    form_class = ProductForm
     success_url = reverse_lazy("nutrition:product-list")
 
 
 class ProductUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Product
-    fields = "__all__"
+    form_class = ProductForm
     success_url = reverse_lazy("nutrition:product-list")
 
 
