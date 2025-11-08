@@ -5,6 +5,16 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from nutrition.models import Customer, Meal, Category, Product
+from .forms import (
+    CustomerSearchForm,
+    CustomerCreationForm,
+    CustomerUpdateForm,
+    MealSearchForm,
+    ProductSearchForm,
+    CategorySearchForm,
+    MealForm
+
+)
 
 
 @login_required
@@ -196,12 +206,14 @@ class MealDetailView(LoginRequiredMixin, generic.DetailView):
 class MealCreateView(LoginRequiredMixin, generic.CreateView):
     model = Meal
     fields = "__all__"
+    form_class = MealForm
     success_url = reverse_lazy("nutrition:meal-list")
 
 
 class MealUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Meal
     fields = "__all__"
+    form_class = MealForm
     success_url = reverse_lazy("nutrition:meal-list")
 
 
