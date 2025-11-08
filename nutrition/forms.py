@@ -17,13 +17,11 @@ class CustomerUpdateForm(forms.ModelForm):
 class MealForm(forms.ModelForm):
     class Meta:
         model = Meal
-        fields = ['date', 'product', 'quantity']
+        fields = ["product", "quantity"]
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'product': forms.Select(attrs={'class': 'form-select'}),
-            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min': 1}),
+            "product": forms.Select(attrs={"class": "form-select"}),
+            "quantity": forms.NumberInput(attrs={"class": "form-control", "min": 1}),
         }
-
 
 
 class CategorySearchForm(forms.Form):

@@ -205,16 +205,18 @@ class MealDetailView(LoginRequiredMixin, generic.DetailView):
 
 class MealCreateView(LoginRequiredMixin, generic.CreateView):
     model = Meal
-    fields = "__all__"
     form_class = MealForm
     success_url = reverse_lazy("nutrition:meal-list")
 
 
 class MealUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Meal
-    fields = "__all__"
     form_class = MealForm
     success_url = reverse_lazy("nutrition:meal-list")
+
+    def form_valid(self, form):
+        form.instance.customer = self.request.user
+        return super().form_valid(form)
 
 
 class MealDeleteView(LoginRequiredMixin, generic.DeleteView):
