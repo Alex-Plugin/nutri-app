@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
@@ -34,15 +33,15 @@ class BaseCustomerForm(forms.ModelForm):
 
 
 class CustomerCreationForm(BaseCustomerForm, forms.ModelForm):
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = Customer
-        fields = ("email", "age", "height", "weight",)
+        fields = ("username", "email", "age", "height", "weight",)
 
 
 class CustomerUpdateForm(BaseCustomerForm, forms.ModelForm):
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = Customer
-        fields = ("email", "age", "height", "weight",)
+        fields = ("username", "email", "age", "height", "weight",)
 
 
 class ProductForm(forms.ModelForm):
