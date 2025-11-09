@@ -22,7 +22,9 @@
       </tr>
     {% for meal in meal_list %}
       <tr>
-        <td>{{ meal.id }}</td>
+        <td><a href="{% url 'nutrition:meal-detail' pk=meal.id %}">
+            {{ meal.id }}
+        </td>
         <td>
           <a href="{% url 'nutrition:product-detail' pk=meal.product.id %}">
             {{ meal.product.name }}

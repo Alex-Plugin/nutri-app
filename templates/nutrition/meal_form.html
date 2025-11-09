@@ -2,7 +2,6 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-% block content %}
   <h1>
     {% if object %}
       Update meal
@@ -15,6 +14,8 @@
     {% csrf_token %}
     {{ form|crispy }}
 
-    <input type="submit" value="Submit" class="btn btn-primary">
+    <button type="submit" class="btn btn-success">
+      {% if object %}Update{% else %}Create{% endif %}
+    </button>
   </form>
 {% endblock %}
