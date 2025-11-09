@@ -63,7 +63,7 @@ class CustomerUpdateForm(BaseCustomerForm, forms.ModelForm):
             "username": None
         }
 
-class ProductForm(forms.ModelForm):,
+class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ["name", "category", "calories", "proteins", "fats", "carbs"]
