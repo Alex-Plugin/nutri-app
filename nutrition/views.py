@@ -156,6 +156,7 @@ class ProductListView(LoginRequiredMixin, generic.ListView):
 class ProductDetailView(LoginRequiredMixin, generic.DetailView):
     model = Product
     queryset = Product.objects.all().prefetch_related("meals")
+    context_object_name = "product"
 
 
 class ProductCreateView(LoginRequiredMixin, generic.CreateView):
