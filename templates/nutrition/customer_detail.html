@@ -12,14 +12,23 @@
     </a>
   </h1>
 
-  <p><strong>First name:</strong> {{ customer.first_name }}</p>
-  <p><strong>Last name:</strong> {{ customer.last_name }}</p>
   <p><strong>Age:</strong> {{ customer.age }}</p>
   <p><strong>Height:</strong> {{ customer.height }}</p>
   <p><strong>Weight:</strong> {{ customer.weight }}</p>
   <p><strong>Gender:</strong> {{ customer.gender }}</p>
   <p><strong>Activity level:</strong> {{ customer.activity_level }}</p>
-
+  {% if customer.get_bmr %}
+    <p>
+      <strong>BMR (Harris-Benedict):</strong>
+      {{ customer.get_bmr|floatformat:0 }} kcal
+    </p>
+    <p>
+      <strong>Daily norm of calories (TDEE):</strong>
+      {{ customer.get_tdee|floatformat:0 }} kcal
+    </p>
+  {% else %}
+    <p class="text-muted">Not enough data to calculate BMR/TDEE.</p>
+  {% endif %}
 
   <div class="ml-3">
     <h4>Meals</h4>
@@ -35,4 +44,9 @@
       <p>No meals!</p>
     {% endfor %}
   </div>
+  <div class="mt-4">
+  <a href="{% url 'nutrition:meal-create' %}" class="btn btn-success">
+    Add meal
+  </a>
+</div>
 {% endblock %}

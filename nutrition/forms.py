@@ -35,16 +35,35 @@ class BaseCustomerForm(forms.ModelForm):
 class CustomerCreationForm(BaseCustomerForm, forms.ModelForm):
     class Meta(UserCreationForm.Meta):
         model = Customer
-        fields = ("username", "email", "age", "height", "weight",)
+        fields = (
+            "username", "email", "age", "height", "weight", "gender", "activity_level",
+        )
+        labels = {
+            "age": "Your age, years.",
+            "height": "Your height, sm",
+            "weight": "Your weight, kg",
+        }
+        help_texts = {
+            "username": None
+        }
 
 
 class CustomerUpdateForm(BaseCustomerForm, forms.ModelForm):
     class Meta(UserCreationForm.Meta):
         model = Customer
-        fields = ("username", "email", "age", "height", "weight",)
+        fields = (
+            "username", "email", "age", "height", "weight", "gender", "activity_level",
+        )
+        labels = {
+            "age": "Your age, years.",
+            "height": "Your height, sm",
+            "weight": "Your weight, kg",
+        }
+        help_texts = {
+            "username": None
+        }
 
-
-class ProductForm(forms.ModelForm):
+class ProductForm(forms.ModelForm):,
     class Meta:
         model = Product
         fields = ["name", "category", "calories", "proteins", "fats", "carbs"]

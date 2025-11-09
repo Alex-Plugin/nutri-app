@@ -17,9 +17,9 @@ class Customer(AbstractUser):
     ]
 
     # Additional fields
-    age = models.PositiveIntegerField(null=True, blank=True, help_text="Age (years)")
-    height = models.FloatField(null=True, blank=True, help_text="Height (sm)")
-    weight = models.FloatField(null=True, blank=True, help_text="Weight (kg)")
+    age = models.PositiveIntegerField(null=True, blank=True)
+    height = models.FloatField(null=True, blank=True)
+    weight = models.FloatField(null=True, blank=True)
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default="male")
     activity_level = models.CharField(max_length=10, choices=ACTIVITY_CHOICES, default="medium")
 
