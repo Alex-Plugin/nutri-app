@@ -2,7 +2,6 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-  {% block content %}
   <h1>
     {% if object %}
       Update category
@@ -15,6 +14,6 @@
     {% csrf_token %}
     {{ form|crispy }}
 
-    <input type="submit" value="Submit" class="btn btn-primary">
+    <input type="submit" value="Create" class="btn btn-primary">
   </form>
 {% endblock %}
