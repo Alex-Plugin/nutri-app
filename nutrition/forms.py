@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
-from nutrition.models import Customer, Meal, Product, Category
+from nutrition.models import Customer, Meal, Product
 
 
 def validate_age(age):
@@ -31,12 +31,10 @@ class BaseCustomerForm(forms.ModelForm):
     def clean_weight(self):
         return validate_weight(self.cleaned_data.get("weight"))
 
-
-class CustomerCreationForm(BaseCustomerForm, forms.ModelForm):
-    class Meta(UserCreationForm.Meta):
+    class Meta:
         model = Customer
         fields = (
-            "username", "email", "age", "height", "weight", "gender", "activity_level",
+            "username", "age", "height", "weight", "gender", "activity_level",
         )
         labels = {
             "age": "Your age, years.",
@@ -47,21 +45,14 @@ class CustomerCreationForm(BaseCustomerForm, forms.ModelForm):
             "username": None
         }
 
+class CustomerCreationForm(UserCreationForm, BaseCustomerForm):
+    """Form for creating a new customer."""
+    pass
 
-class CustomerUpdateForm(BaseCustomerForm, forms.ModelForm):
-    class Meta(UserCreationForm.Meta):
-        model = Customer
-        fields = (
-            "username", "email", "age", "height", "weight", "gender", "activity_level",
-        )
-        labels = {
-            "age": "Your age, years.",
-            "height": "Your height, sm",
-            "weight": "Your weight, kg",
-        }
-        help_texts = {
-            "username": None
-        }
+class CustomerUpdateForm(BaseCustomerForm):
+    """Form for updating a customer."""
+    pass
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
