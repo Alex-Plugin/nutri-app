@@ -113,6 +113,11 @@ class CategoryListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
+class CategoryDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Category
+    queryset = Category.objects.all().prefetch_related("products")
+
+
 class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
     model = Category
     fields = "__all__"

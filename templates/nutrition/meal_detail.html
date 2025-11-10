@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Meal #{{ meal.id }}
-    <a href="{% url 'nutrition:meal-update' pk=meal.id %}" class="btn btn-secondary link-to-page">
-      Update
-    </a>
+  <h1>Meal №{{ meal.id }}
     <a href="{% url 'nutrition:meal-delete' pk=meal.id %}" class="btn btn-danger link-to-page">
       Delete
+    </a>
+    <a href="{% url 'nutrition:meal-update' pk=meal.id %}" class="btn btn-secondary link-to-page">
+      Update
     </a>
   </h1>
 

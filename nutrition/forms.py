@@ -45,7 +45,7 @@ class BaseCustomerForm(forms.ModelForm):
             "username": None
         }
 
-class CustomerCreationForm(UserCreationForm, BaseCustomerForm):
+class CustomerCreationForm(BaseCustomerForm, UserCreationForm):
     """Form for creating a new customer."""
     pass
 
