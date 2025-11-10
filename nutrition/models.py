@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
@@ -103,6 +104,11 @@ class Meal(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="meals")
     quantity = models.FloatField(help_text="Quantity in grams")
     date = models.DateField(auto_now_add=True)
+    shared_with = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name="shared_meals",
+        blank=True
+    )
 
     class Meta:
         verbose_name = "meal"
