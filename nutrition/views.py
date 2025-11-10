@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -232,3 +232,16 @@ class MealUpdateView(LoginRequiredMixin, generic.UpdateView):
 class MealDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Meal
     success_url = reverse_lazy("nutrition:meal-list")
+
+
+@login_required
+def toggle_meal_assign(request, pk):
+    meal = get_object_or_404(Meal, pk=pk)
+    user = request.user
+
+    if user in meal.shared_with.all():
+        meal.shared_with.remove(user)
+    else:
+        meal.shared_with.add(user)
+
+    return redirect("nutrition:meal-detail", pk=meal.pk)
