@@ -11,16 +11,19 @@
     {% include "includes/search_form.html" %}
 
     {% if customer_list %}
-    <table class="table">
-      <tr>
-        <th>ID</th>
-        <th>Last name</th>
-        <th>Age</th>
-        <th>Height</th>
-        <th>Weight</th>
-        <th>Gender</th>
-        <th>Activity level</th>
-      </tr>
+    <table class="table table-striped table-bordered mt-3">
+      <thead class="thead-light">
+        <tr>
+          <th>ID</th>
+          <th>Last name</th>
+          <th>Age</th>
+          <th>Height</th>
+          <th>Weight</th>
+          <th>Gender</th>
+          <th>Activity level</th>
+        </tr>
+      </thead>
+
     {% for customer in customer_list %}
       <tr>
         <td>{{ customer.id }}</td>
