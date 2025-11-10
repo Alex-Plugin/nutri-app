@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Category: {{category.name}}</h1>
+
+{% if category.products.all %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Calories (kcal / 100g)</th>
+          <th>Proteins (g)</th>
+          <th>Fats (g)</th>
+          <th>Carbs (g)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in category.products.all %}
+          <tr>
+            <td>
+              <a href="{% url 'nutrition:product-detail' product.pk %}">
+                {{ product.name }}
+              </a>
+            </td>
+            <td>{{ product.calories }}</td>
+            <td>{{ product.proteins }}</td>
+            <td>{{ product.fats }}</td>
+            <td>{{ product.carbs }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">No products in this category yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No products found in this category.</p>
+  {% endif %}
+{% endblock %}
