@@ -21,6 +21,7 @@ from .views import (
     MealCreateView,
     MealUpdateView,
     MealDeleteView,
+    toggle_meal_assign,
 )
 
 app_name = "nutrition"
@@ -52,4 +53,6 @@ urlpatterns = [
     path("meals/create/", MealCreateView.as_view(), name="meal-create"),
     path("meals/<int:pk>/update/", MealUpdateView.as_view(), name="meal-update"),
     path("meals/<int:pk>/delete/", MealDeleteView.as_view(), name="meal-delete"),
+    path("meals/<int:pk>/toggle-assign/", toggle_meal_assign, name="toggle-meal-assign"),
+
 ]

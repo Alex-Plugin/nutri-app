@@ -11,7 +11,19 @@
   </h1>
 
   <hr>
+  {% if request.user != meal.customer %}
+    {% if request.user in meal.shared_with.all %}
+      <a href="{% url 'nutrition:toggle-meal-assign' pk=meal.id %}" class="btn btn-danger">
+        Remove from my meals
+      </a>
+    {% else %}
+      <a href="{% url 'nutrition:toggle-meal-assign' pk=meal.id %}" class="btn btn-success">
+        Add to my meals
+      </a>
+    {% endif %}
+{% endif %}
 
+   <hr>
   <ul>
     <li><strong>Date:</strong> {{ meal.date|date:"Y-m-d" }}</li>
     <li><strong>Product:</strong> {{ meal.product.name }}</li>

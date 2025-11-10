@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q, Case, When, Value, IntegerField
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
@@ -187,13 +188,24 @@ class MealListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(customer=self.request.user) # filters only meals of each user, not all meals of all users!
-        form = MealSearchForm(self.request.GET)
-        if form.is_valid():
-            date = form.cleaned_data["date"]
-            if date:
-                queryset = queryset.filter(date=date)
+        user = self.request.user
+        # filters meals of each user, plus all the added by the user meals of other users!
+        queryset = (
+            Meal.objects.filter(Q(customer=user) | Q(shared_with=user))
+            .annotate(
+                is_owner=Case(
+                    When(customer=user, then=Value(0)),  # first your meals
+                    default=Value(1),  # then meals of other users
+                    output_field=IntegerField(),
+                )
+            )
+            .order_by("is_owner", "-date")  # first your meals, then ordered by data, the newest on the top
+            .distinct()
+        )
+
         return queryset
+
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(MealListView, self).get_context_data(**kwargs)

@@ -34,11 +34,15 @@
     <h4>Meals</h4>
 
     {% for meal in customer.meals.all %}
-        <hr>
-        <p><strong>Product:</strong> {{ meal.product.name }}</p>
-        <p><strong>Quantity:</strong> {{ meal.quantity }}</p>
-        <p><strong>Date:</strong> {{ meal.date|date:"d F Y" }}</p>
-        <p class="text-muted"><strong>Id:</strong> {{meal.id}}</p>
+      <hr>
+      <p><strong>Product:</strong> {{ meal.product.name }}</p>
+      <p><strong>Quantity:</strong> {{ meal.quantity }}</p>
+      <p><strong>Date:</strong> {{ meal.date|date:"d F Y" }}</p>
+      <p>
+        <a href="{% url 'nutrition:meal-detail' pk=meal.id %}" class="text-muted">
+          <strong>Id: </strong>{{meal.id}}
+        </a>
+      </p>
 
     {% empty %}
       <p>No meals!</p>
