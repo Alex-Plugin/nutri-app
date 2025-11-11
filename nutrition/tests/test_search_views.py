@@ -79,3 +79,15 @@ class ProductSearchViewTest(PrivateSearchViewTestBase):
             ordered=False
         )
 
+
+class CustomerSearchViewTest(PrivateSearchViewTestBase):
+    def test_search_customer_found(self):
+        res = self.client.get(CUSTOMER_LIST_URL, {"username": "u"})
+        self.assertEqual(res.status_code, 200)
+        customers = res.context["customer_list"]
+        self.assertIn(self.u1, customers)
+        self.assertIn(self.u2, customers)
+        self.assertNotIn(self.u3, customers)
+
+
+
