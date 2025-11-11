@@ -27,4 +27,12 @@ class ToggleMealAssignTest(TestCase):
         # redirect to meal detail
         self.assertEqual(res.status_code, 302)
 
-
+    def test_toggle_removes_user_from_shared_with(self):
+        # first add user2
+        self.meal.shared_with.add(self.user2)
+        self.client.force_login(self.user2)
+        url = reverse("nutrition:toggle-meal-assign", kwargs={"pk": self.meal.pk})
+        res = self.client.get(url)
+        self.meal.refresh_from_db()
+        self.assertNotIn(self.user2, self.meal.shared_with.all())
+        self.assertEqual(res.status_code, 302)
