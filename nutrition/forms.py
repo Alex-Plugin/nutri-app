@@ -118,3 +118,4 @@ class ProductSearchForm(forms.Form):
             attrs={"placeholder": "Enter the product name"}
         ),
     )
+    
