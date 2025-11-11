@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from datetime import date, timedelta
 
 from nutrition.models import Category, Product, Meal
 
@@ -25,6 +24,7 @@ class ModelTest(TestCase):
         self.assertEqual(
             p.get_absolute_url(),
             reverse("nutrition:product-detail", kwargs={"pk": p.pk})
+        )
 
     def test_customer_str_and_urls_and_bmr_tdee(self):
         User = get_user_model()
