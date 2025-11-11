@@ -58,3 +58,20 @@ class AdminPanelTest(TestCase):
         # total_calories method value: 52 * 150 / 100 = 78.0
         self.assertContains(res, "78.0")
 
+    def test_customer_admin_detail_contains_custom_fields(self):
+        # create a normal customer
+        user = get_user_model().objects.create_user(
+            username="john",
+            password="pass123",
+            first_name="John",
+            last_name="Doe",
+            age=30,
+            height=180.0,
+            weight=75.0
+        )
+        url = reverse("admin:nutrition_customer_change", args=[user.pk])
+        res = self.client.get(url)
+        self.assertEqual(res.status_code, 200)
+        # check that one of custom fields is present in admin page
+        self.assertContains(res, "age")
+        self.assertContains(res, "height")
