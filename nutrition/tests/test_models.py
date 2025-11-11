@@ -52,5 +52,28 @@ class ModelTest(TestCase):
         tdee = u.get_tdee()
         self.assertIsInstance(tdee, int)
 
-
-
+    def test_meal_str_and_totals_and_absolute_url(self):
+        cat = Category.objects.create(name="Dairy")
+        p = Product.objects.create(
+            name="Milk",
+            category=cat,
+            calories=42.0,
+            proteins=3.4,
+            fats=1.0,
+            carbs=5.0
+        )
+        user = get_user_model().objects.create_user(username="u", password="p")
+        meal = Meal.objects.create(customer=user, product=p, quantity=200)
+        # total calories: 42 * 200 / 100 = 84.0
+        self.assertEqual(meal.total_calories(), round(42.0 * 200 / 100, 2))
+        self.assertEqual(meal.total_proteins(), round(3.4 * 200 / 100, 2))
+        self.assertEqual(meal.total_fats(), round(1.0 * 200 / 100, 2))
+        self.assertEqual(meal.total_carbs(), round(5.0 * 200 / 100, 2))
+        self.assertEqual(
+            str(meal),
+            f"{p.name} ({meal.quantity} g on {meal.date})"
+        )
+        self.assertEqual(
+            meal.get_absolute_url(),
+            reverse("nutrition:meal-detail", kwargs={"pk": meal.pk})
+        )
