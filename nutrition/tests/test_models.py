@@ -25,4 +25,32 @@ class ModelTest(TestCase):
         self.assertEqual(
             p.get_absolute_url(),
             reverse("nutrition:product-detail", kwargs={"pk": p.pk})
+
+    def test_customer_str_and_urls_and_bmr_tdee(self):
+        User = get_user_model()
+        u = User.objects.create_user(
+            username="alex",
+            password="123",
+            first_name="A",
+            last_name="B",
+            age=30,
+            height=180.0,
+            weight=75.0,
+            gender="male",
+            activity_level="medium"
         )
+        self.assertEqual(str(u), f"{u.username} ({u.first_name} {u.last_name})")
+        self.assertEqual(
+            u.get_absolute_url(),
+            reverse("nutrition:customer-detail", kwargs={"pk": u.pk})
+        )
+
+        # BMR calculation (male)
+        bmr = u.get_bmr()
+        self.assertIsNotNone(bmr)
+        # TDEE should be integer rounded
+        tdee = u.get_tdee()
+        self.assertIsInstance(tdee, int)
+
+
+
