@@ -55,4 +55,27 @@ class CategorySearchViewTest(PrivateSearchViewTestBase):
     def test_search_category_empty(self):
         res = self.client.get(CATEGORY_LIST_URL, {"name": ""})
         self.assertEqual(res.status_code, 200)
-        self.assertQuerySetEqual(list(res.context["category_list"]), list(Category.objects.all()), ordered=False)
+        self.assertQuerysetEqual(
+            list(res.context["category_list"]),
+            list(Category.objects.all()),
+            ordered=False
+        )
+
+
+class ProductSearchViewTest(PrivateSearchViewTestBase):
+    def test_search_product_found(self):
+        res = self.client.get(PRODUCT_LIST_URL, {"name": "App"})
+        self.assertEqual(res.status_code, 200)
+        products = res.context["product_list"]
+        self.assertIn(self.p1, products)
+        self.assertNotIn(self.p2, products)
+
+    def test_search_product_empty(self):
+        res = self.client.get(PRODUCT_LIST_URL, {"name": ""})
+        self.assertEqual(res.status_code, 200)
+        self.assertQuerysetEqual(
+            list(res.context["product_list"]),
+            list(Product.objects.all()),
+            ordered=False
+        )
+
