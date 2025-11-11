@@ -38,3 +38,12 @@ class AdminPanelTest(TestCase):
         )
         user = get_user_model().objects.create_user(username="u1", password="123")
         self.meal = Meal.objects.create(customer=user, product=self.product, quantity=150)
+
+    def test_product_listed_in_admin(self):
+        # ensure proper setup
+        self._ensure_product_and_meal()
+        url = reverse("admin:nutrition_product_changelist")
+        res = self.client.get(url)
+        self.assertEqual(res.status_code, 200)
+        # calories should be displayed in admin list
+        self.assertContains(res, "52.0")
