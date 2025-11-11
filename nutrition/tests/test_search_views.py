@@ -90,4 +90,13 @@ class CustomerSearchViewTest(PrivateSearchViewTestBase):
         self.assertNotIn(self.u3, customers)
 
 
+class MealSearchViewTest(PrivateSearchViewTestBase):
+    def test_search_meal_by_date(self):
+        d1 = date.today()
+        self.client.force_login(self.u1)  # 👈 логиним пользователя, у которого есть meal1
+        res = self.client.get(MEAL_LIST_URL, {"date": d1})
+        self.assertEqual(res.status_code, 200)
+        meals = res.context["meal_list"]
+        self.assertIn(self.meal1, meals)
+        self.assertNotIn(self.meal2, meals)
 
