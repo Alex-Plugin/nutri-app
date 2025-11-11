@@ -16,3 +16,15 @@ class ToggleMealAssignTest(TestCase):
         self.meal = Meal.objects.create(
             customer=self.user1, product=self.prod, quantity=100
         )
+
+    def test_toggle_adds_user_to_shared_with(self):
+        self.client.force_login(self.user2)
+        url = reverse("nutrition:toggle-meal-assign", kwargs={"pk": self.meal.pk})
+        res = self.client.get(url)
+        # after toggle, user2 should be in meal.shared_with
+        self.meal.refresh_from_db()
+        self.assertIn(self.user2, self.meal.shared_with.all())
+        # redirect to meal detail
+        self.assertEqual(res.status_code, 302)
+
+
