@@ -42,3 +42,17 @@ class PrivateSearchViewTestBase(TestCase):
         self.meal1.save()
         self.meal2.date = d2
         self.meal2.save()
+
+
+class CategorySearchViewTest(PrivateSearchViewTestBase):
+    def test_search_category_found(self):
+        res = self.client.get(CATEGORY_LIST_URL, {"name": "Fru"})
+        self.assertEqual(res.status_code, 200)
+        categories = res.context["category_list"]
+        self.assertIn(self.c1, categories)
+        self.assertNotIn(self.c2, categories)
+
+    def test_search_category_empty(self):
+        res = self.client.get(CATEGORY_LIST_URL, {"name": ""})
+        self.assertEqual(res.status_code, 200)
+        self.assertQuerySetEqual(list(res.context["category_list"]), list(Category.objects.all()), ordered=False)
