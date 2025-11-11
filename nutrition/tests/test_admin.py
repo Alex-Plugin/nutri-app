@@ -47,3 +47,14 @@ class AdminPanelTest(TestCase):
         self.assertEqual(res.status_code, 200)
         # calories should be displayed in admin list
         self.assertContains(res, "52.0")
+
+    def test_meal_listed_in_admin(self):
+        self._ensure_product_and_meal()
+        url = reverse("admin:nutrition_meal_changelist")
+        res = self.client.get(url)
+        self.assertEqual(res.status_code, 200)
+        # product name and quantity/total calories appear
+        self.assertContains(res, "Apple")
+        # total_calories method value: 52 * 150 / 100 = 78.0
+        self.assertContains(res, "78.0")
+
