@@ -23,3 +23,18 @@ class AdminPanelTest(TestCase):
             fats=0.2,
             carbs=14.0
         )
+
+    def _ensure_product_and_meal(self):
+        # Create category, product and meal properly (used if fallback failed)
+        from nutrition.models import Category
+        cat, _ = Category.objects.get_or_create(name="Fruits")
+        self.product = Product.objects.create(
+            name="Apple",
+            category=cat,
+            calories=52.0,
+            proteins=0.3,
+            fats=0.2,
+            carbs=14.0
+        )
+        user = get_user_model().objects.create_user(username="u1", password="123")
+        self.meal = Meal.objects.create(customer=user, product=self.product, quantity=150)
