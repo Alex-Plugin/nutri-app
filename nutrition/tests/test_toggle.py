@@ -36,3 +36,12 @@ class ToggleMealAssignTest(TestCase):
         self.meal.refresh_from_db()
         self.assertNotIn(self.user2, self.meal.shared_with.all())
         self.assertEqual(res.status_code, 302)
+
+    def test_meal_list_includes_shared_and_own(self):
+        # user2 adds meal
+        self.meal.shared_with.add(self.user2)
+        self.client.force_login(self.user2)
+        res = self.client.get(reverse("nutrition:meal-list"))
+        self.assertEqual(res.status_code, 200)
+        meals = list(res.context["meal_list"])
+        self.assertIn(self.meal, meals)
