@@ -1,19 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Nutrition Tracker Home</h1>
-    <p>Everything you need to know about healthy eating</p>
-    <h2>Dynamic content</h2>
-    <p>The Nutrition tracker has the following record counts:</p>
-    <ul>
-        <li><strong>Categories:</strong> {{ num_category }}</li>
-        <li><strong>Products:</strong> {{ num_products }}</li>
-        <li><strong>Customers</strong> {{ num_customers }}</li>
-        <li><strong>Meals</strong> {{ num_meals }}</li>
-    </ul>
+<div class="container mt-4">
+    <h1 class="mb-4">Nutrition Tracker Home</h1>
+    <p class="lead">Make your life delicious, healthy, and colorful.
+Together, we’ll do everything for a healthier you!</p>
 
-    <p>You have visited this page
-        {{ num_visits }} time{{ num_visits|pluralize }}.
+    <h2 class="mt-5 mb-3">Statistics</h2>
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Categories</h5>
+                    <p class="display-6">{{ num_category }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Products</h5>
+                    <p class="display-6">{{ num_products }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Customers</h5>
+                    <p class="display-6">{{ num_customers }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Meals</h5>
+                    <p class="display-6">{{ num_meals }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p class="mt-4">You have visited this page
+        <strong>{{ num_visits }}</strong> time{{ num_visits|pluralize }}.
     </p>
-
+</div>
 {% endblock %}
