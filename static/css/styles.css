@@ -1,0 +1,72 @@
+/* === Background === */
+body {
+  background-color: #f8f9fa; /* светло-серый фон */
+  color: #212529;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* === Cards === */
+.card {
+  background-color: #ffffff; /* white cards */
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  color: #212529;
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* === Links === */
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* === Sidebar === */
+.sidebar-nav {
+  background-color: #e9f2fb; /* светло-голубой */
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.list-group-item {
+  background-color: transparent;
+  color: #004085;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.list-group-item a {
+  color: #004085;
+  text-decoration: none;
+}
+
+.list-group-item:hover {
+  background-color: #cfe2ff;
+  border-radius: 5px;
+}
+
+/* === Tables === */
+.table {
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #e9f2fb;
+  color: #212529;
+  border-color: #dee2e6;
+}
+
+.table td {
+  border-color: #dee2e6;
+}
+
+/* === Heads === */
+h1, h2 {
+  color: #212529;
+}

@@ -2,57 +2,48 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-  <h1>
-    Meal list
-    <a href="{% url 'nutrition:meal-create' %}" class="btn btn-primary link-to-page">
-      Create
-    </a>
-  </h1>
-  {% include "includes/search_form.html" %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Meal List</h1>
+        <a href="{% url 'nutrition:meal-create' %}" class="btn btn-primary">Create Meal</a>
+    </div>
 
-{% if meal_list %}
-    <table class="table table-striped table-bordered mt-3">
-      <thead class="thead-light">
-        <tr>
-          <th>ID</th>
-          <th>Product</th>
-          <th>Quantity</th>
-          <th>Date</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+    {% include "includes/search_form.html" %}
 
-    {% for meal in meal_list %}
-      <tr>
-        <td><a href="{% url 'nutrition:meal-detail' pk=meal.id %}">
-            {{ meal.id }}
-        </td>
-        <td>
-          <a href="{% url 'nutrition:product-detail' pk=meal.product.id %}">
-            {{ meal.product.name }}
-          </a>
-        </td>
-        <td>{{ meal.quantity }}</td>
-        <td>{{ meal.date|date:"Y-m-d" }}</td>
-        <td>
-          {% if meal.customer == user %}
-            <a href="{% url 'nutrition:meal-update' pk=meal.id %}" class="btn btn-sm btn-warning">
-              Update
-            </a>
-            <a href="{% url 'nutrition:meal-delete' pk=meal.id %}" class="btn btn-sm btn-danger">
-              Delete
-            </a>
-          {% else %}
-            <a href="{% url 'nutrition:toggle-meal-assign' pk=meal.id %}" class="btn btn-sm btn-danger">
-              Remove from my meals
-            </a>
-          {% endif %}
-        </td>
-      </tr>
-    {% endfor %}
-
-    </table>
-  {% else %}
-    <p>You didn't add any meals yet</p>
-  {% endif %}
+    {% if meal_list %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for meal in meal_list %}
+                <tr>
+                    <td><a href="{% url 'nutrition:meal-detail' pk=meal.id %}">{{ meal.id }}</a></td>
+                    <td><a href="{% url 'nutrition:product-detail' pk=meal.product.id %}">{{ meal.product.name }}</a></td>
+                    <td>{{ meal.quantity }}</td>
+                    <td>{{ meal.date|date:"Y-m-d" }}</td>
+                    <td>
+                        {% if meal.customer == user %}
+                        <a href="{% url 'nutrition:meal-update' pk=meal.id %}" class="btn btn-sm btn-warning me-1">Update</a>
+                        <a href="{% url 'nutrition:meal-delete' pk=meal.id %}" class="btn btn-sm btn-danger">Delete</a>
+                        {% else %}
+                        <a href="{% url 'nutrition:toggle-meal-assign' pk=meal.id %}" class="btn btn-sm btn-secondary">Remove</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">You didn't add any meals yet.</div>
+    {% endif %}
+</div>
 {% endblock %}

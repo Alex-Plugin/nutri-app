@@ -2,48 +2,66 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">Nutrition Tracker Home</h1>
-    <p class="lead">Make your life delicious, healthy, and colorful.
-Together, we’ll do everything for a healthier you!</p>
+  <h1 class="mb-4 text-dark">Nutrition Tracker Home</h1>
+  <p class="lead text-secondary">
+    Make your life delicious, healthy, and colorful.
+    Together, we’ll do everything for a healthier you!
+  </p>
 
-    <h2 class="mt-5 mb-3">Statistics</h2>
-    <div class="row g-3">
-        <div class="col-md-3">
-            <div class="card text-center shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Categories</h5>
-                    <p class="display-6">{{ num_category }}</p>
-                </div>
-            </div>
+  <h2 class="mt-5 mb-3 text-dark">Statistics</h2>
+  <div class="row g-3">
+    <!-- Customers -->
+    <div class="col-md-3">
+      <a href="{% url 'nutrition:customer-list' %}" class="card-link">
+        <div class="card text-center shadow-sm clickable-card">
+          <div class="card-body">
+            <h5 class="card-title text-primary">Customers</h5>
+            <p class="display-6">{{ num_customers }}</p>
+          </div>
         </div>
-        <div class="col-md-3">
-            <div class="card text-center shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Products</h5>
-                    <p class="display-6">{{ num_products }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Customers</h5>
-                    <p class="display-6">{{ num_customers }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Meals</h5>
-                    <p class="display-6">{{ num_meals }}</p>
-                </div>
-            </div>
-        </div>
+      </a>
     </div>
 
-    <p class="mt-4">You have visited this page
-        <strong>{{ num_visits }}</strong> time{{ num_visits|pluralize }}.
-    </p>
+    <!-- Meals -->
+    <div class="col-md-3">
+      <a href="{% url 'nutrition:meal-list' %}" class="card-link">
+        <div class="card text-center shadow-sm clickable-card">
+          <div class="card-body">
+            <h5 class="card-title text-primary">Meals</h5>
+            <p class="display-6">{{ num_meals }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Categories -->
+    <div class="col-md-3">
+      <a href="{% url 'nutrition:category-list' %}" class="card-link">
+        <div class="card text-center shadow-sm clickable-card">
+          <div class="card-body">
+            <h5 class="card-title text-primary">Categories</h5>
+            <p class="display-6">{{ num_category }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Products -->
+    <div class="col-md-3">
+      <a href="{% url 'nutrition:product-list' %}" class="card-link">
+        <div class="card text-center shadow-sm clickable-card">
+          <div class="card-body">
+            <h5 class="card-title text-primary">Products</h5>
+            <p class="display-6">{{ num_products }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <p class="mt-4 text-secondary">
+    You have visited this page <strong>{{ num_visits }}</strong>
+    time{{ num_visits|pluralize }}.
+  </p>
 </div>
 {% endblock %}
