@@ -104,10 +104,16 @@ class MealSearchForm(forms.Form):
     date = forms.DateField(
         required=False,
         label="",
-        widget=forms.DateInput(
-            attrs={"type": "date", "placeholder": "Select date of the Meal"}
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control datepicker",
+                "placeholder": "Select date of the Meal",
+                "autocomplete": "off",
+                # switch off the autocomplete of the browser (browser takes his own calendar)
+            }
         ),
     )
+
 
 class ProductSearchForm(forms.Form):
     name = forms.CharField(
