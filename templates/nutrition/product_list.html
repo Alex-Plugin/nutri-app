@@ -6,52 +6,48 @@
 {% endblock %}
 
 {% block content %}
-  <h1>
-    Products
-    <a href="{% url 'nutrition:product-create' %}" class="btn btn-primary ml-3">Create</a>
-  </h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Products</h1>
+        <a href="{% url 'nutrition:product-create' %}" class="btn btn-primary">Create Product</a>
+    </div>
 
-  {% include "includes/search_form.html" %}
+    {% include "includes/search_form.html" %}
 
-  {% if product_list %}
-    <table class="table table-striped table-bordered mt-3">
-      <thead class="thead-light">
-        <tr>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Calories</th>
-          <th>Proteins</th>
-          <th>Fats</th>
-          <th>Carbs</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for product in product_list %}
-          <tr>
-            <td>
-              <a href="{% url 'nutrition:product-detail' pk=product.pk %}">
-                {{ product.name }}
-              </a>
-            </td>
-            <td>{{ product.category.name }}</td>
-            <td>{{ product.calories }}</td>
-            <td>{{ product.proteins }}</td>
-            <td>{{ product.fats }}</td>
-            <td>{{ product.carbs }}</td>
-            <td>
-              <a href="{% url 'nutrition:product-update' pk=product.pk %}" class="btn btn-sm btn-warning">
-                Update
-              </a>
-              <a href="{% url 'nutrition:product-delete' pk=product.pk %}" class="btn btn-sm btn-danger">
-                Delete
-              </a>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>No products available.</p>
-  {% endif %}
+    {% if product_list %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Calories</th>
+                    <th>Proteins</th>
+                    <th>Fats</th>
+                    <th>Carbs</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in product_list %}
+                <tr>
+                    <td><a href="{% url 'nutrition:product-detail' pk=product.pk %}">{{ product.name }}</a></td>
+                    <td>{{ product.category.name }}</td>
+                    <td>{{ product.calories }}</td>
+                    <td>{{ product.proteins }}</td>
+                    <td>{{ product.fats }}</td>
+                    <td>{{ product.carbs }}</td>
+                    <td>
+                        <a href="{% url 'nutrition:product-update' pk=product.pk %}" class="btn btn-sm btn-warning me-1">Update</a>
+                        <a href="{% url 'nutrition:product-delete' pk=product.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">No products available.</div>
+    {% endif %}
+</div>
 {% endblock %}
