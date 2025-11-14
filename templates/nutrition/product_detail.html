@@ -1,24 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>
-    {{ product.name }}
-    <a href="{% url 'nutrition:product-delete' pk=product.id %}" class="btn btn-danger link-to-page">
-      Delete
-    </a>
+<div class="container mt-4">
 
-    <a href="{% url 'nutrition:product-update' pk=product.id %}" class="btn btn-secondary link-to-page">
-      Update
-    </a>
-  </h1>
-  <p><strong>Category:</strong> {{ product.category.name }}</p>
-  <h2>Nutritional Characteristics</h2>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">{{ product.name }}</h1>
 
-<ul>
-  <li><strong>Calories:</strong> {{ product.calories }} kcal</li>
-  <li><strong>Protein:</strong> {{ product.proteins }} g</li>
-  <li><strong>Fat:</strong> {{ product.fats }} g</li>
-  <li><strong>Carbohydrates:</strong> {{ product.carbs }} g</li>
-</ul>
+        <div>
+            <a href="{% url 'nutrition:product-update' pk=product.id %}" class="btn btn-warning me-2">
+                Update
+            </a>
+            <a href="{% url 'nutrition:product-delete' pk=product.id %}" class="btn btn-danger">
+                Delete
+            </a>
+        </div>
+    </div>
 
+    <p><strong>Category:</strong> {{ product.category.name }}</p>
+
+    <h2 class="mt-4">Nutritional Characteristics</h2>
+
+    <ul>
+        <li><strong>Calories:</strong> {{ product.calories }} kcal</li>
+        <li><strong>Protein:</strong> {{ product.proteins }} g</li>
+        <li><strong>Fat:</strong> {{ product.fats }} g</li>
+        <li><strong>Carbohydrates:</strong> {{ product.carbs }} g</li>
+    </ul>
+
+</div>
 {% endblock %}
