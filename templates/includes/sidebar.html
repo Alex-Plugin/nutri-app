@@ -1,18 +1,56 @@
-<div class="sidebar">
-  <ul class="sidebar-nav list-group">
+<div class="sidebar bg-light shadow-sm rounded p-3">
+
+  <!-- User block -->
+  <div class="mb-3">
     {% if user.is_authenticated %}
-      <li class="list-group-item">Customer: <a href="{{ user.get_absolute_url }}">{{ user.get_username }}</a></li>
-      <li class="list-group-item"><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="fw-semibold">
+          👤 <a href="{{ user.get_absolute_url }}" class="text-decoration-none">{{ user.get_username }}</a>
+        </span>
+      </div>
+      <a href="{% url 'logout'%}?next={{request.path}}" class="btn btn-outline-danger w-100 btn-sm">
+        Logout
+      </a>
     {% else %}
-      <li class="list-group-item"><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+      <a href="{% url 'login'%}?next={{request.path}}" class="btn btn-primary w-100 btn-sm">
+        Login
+      </a>
     {% endif %}
+  </div>
 
-    <br>
+  <hr>
 
-    <li class="list-group-item"><a href="{% url 'nutrition:index' %}">Home</a></li>
-    <li class="list-group-item"><a href="{% url 'nutrition:customer-list' %}">Customers</a></li>
-    <li class="list-group-item"><a href="{% url 'nutrition:category-list' %}">Categories</a></li>
-    <li class="list-group-item"><a href="{% url 'nutrition:product-list' %}">Products</a></li>
-    <li class="list-group-item"><a href="{% url 'nutrition:meal-list' %}">Meals</a></li>
+  <!-- Navigation -->
+  <ul class="nav flex-column sidebar-menu">
+    <li class="nav-item mb-1">
+      <a class="nav-link sidebar-link" href="{% url 'nutrition:index' %}">
+        🏠 Home
+      </a>
+    </li>
+
+    <li class="nav-item mb-1">
+      <a class="nav-link sidebar-link" href="{% url 'nutrition:customer-list' %}">
+        👥 Customers
+      </a>
+    </li>
+
+    <li class="nav-item mb-1">
+      <a class="nav-link sidebar-link" href="{% url 'nutrition:category-list' %}">
+        📂 Categories
+      </a>
+    </li>
+
+    <li class="nav-item mb-1">
+      <a class="nav-link sidebar-link" href="{% url 'nutrition:product-list' %}">
+        🍎 Products
+      </a>
+    </li>
+
+    <li class="nav-item mb-1">
+      <a class="nav-link sidebar-link" href="{% url 'nutrition:meal-list' %}">
+        🍽️ Meals
+      </a>
+    </li>
   </ul>
+
 </div>
