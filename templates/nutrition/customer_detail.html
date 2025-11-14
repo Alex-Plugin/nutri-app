@@ -1,58 +1,69 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>
-    Username: {{ customer.username }}
-    <a href="{% url 'nutrition:customer-delete' pk=customer.id %}" class="btn btn-danger link-to-page">
-      Delete
-    </a>
+<div class="container mt-4">
 
-    <a href="{% url 'nutrition:customer-update' pk=customer.id %}" class="btn btn-secondary link-to-page">
-      Update customer data
-    </a>
-  </h1>
+  <!-- Header + buttons -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Customer: {{ customer.username }}</h1>
 
+    <div>
+      <a href="{% url 'nutrition:customer-update' pk=customer.id %}" class="btn btn-warning me-2">
+        Update
+      </a>
+      <a href="{% url 'nutrition:customer-delete' pk=customer.id %}" class="btn btn-danger">
+        Delete
+      </a>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Customer info -->
   <p><strong>Age:</strong> {{ customer.age }}</p>
-  <p><strong>Height:</strong> {{ customer.height }}</p>
-  <p><strong>Weight:</strong> {{ customer.weight }}</p>
+  <p><strong>Height:</strong> {{ customer.height }} cm</p>
+  <p><strong>Weight:</strong> {{ customer.weight }} kg</p>
   <p><strong>Gender:</strong> {{ customer.gender }}</p>
   <p><strong>Activity level:</strong> {{ customer.activity_level }}</p>
+
   {% if customer.get_bmr %}
-    <p>
-      <strong>BMR (Harris-Benedict):</strong>
-      {{ customer.get_bmr|floatformat:0 }} kcal
-    </p>
-    <p>
-      <strong>Daily norm of calories (TDEE):</strong>
-      {{ customer.get_tdee|floatformat:0 }} kcal
-    </p>
+    <p><strong>BMR:</strong> {{ customer.get_bmr|floatformat:0 }} kcal</p>
+    <p><strong>TDEE:</strong> {{ customer.get_tdee|floatformat:0 }} kcal</p>
   {% else %}
     <p class="text-muted">Not enough data to calculate BMR/TDEE.</p>
   {% endif %}
 
-  <div class="ml-3">
-    <h4>Meals</h4>
+  <hr>
 
+  <!-- Meals header -->
+  <h3 class="mt-4">Meals</h3>
+
+  <!-- Meals list -->
+  <div class="mt-3">
     {% for meal in customer.meals.all %}
-      <hr>
-      <p><strong>Product:</strong> {{ meal.product.name }}</p>
-      <p><strong>Quantity:</strong> {{ meal.quantity }}</p>
-      <p><strong>Date:</strong> {{ meal.date|date:"d F Y" }}</p>
-      <p>
-        <a href="{% url 'nutrition:meal-detail' pk=meal.id %}" class="text-muted">
-          <strong>Id: </strong>{{meal.id}}
+
+      <div class="border rounded p-3 mb-3">
+
+        <!-- Link to meal -->
+        <a href="{% url 'nutrition:meal-detail' pk=meal.id %}"
+           class="btn btn-outline-primary btn-sm mb-2 fw-bold">
+          Meal №{{ meal.id }}
         </a>
-      </p>
+
+        <p class="mb-1">
+          <strong>{{ meal.product.name }}</strong> — {{ meal.quantity }} g
+        </p>
+
+        <p class="text-muted mb-0" style="font-size: 0.9rem;">
+          {{ meal.date|date:"d M Y" }}
+        </p>
+
+      </div>
 
     {% empty %}
       <p>No meals!</p>
     {% endfor %}
   </div>
-  <div class="mt-4">
-  <a href="{% url 'nutrition:meal-create' %}" class="btn btn-success">
-    Add meal
-  </a>
+
 </div>
 {% endblock %}
-
-
