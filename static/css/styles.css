@@ -1,0 +1,117 @@
+/* === Background === */
+body {
+  background-color: #f8f9fa; /* light-grey background */
+  color: #212529;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* === Cards === */
+.card {
+  background-color: #ffffff; /* white cards */
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  color: #212529;
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* === Links === */
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* === Sidebar === */
+.sidebar-nav {
+  background-color: #e9f2fb; /* светло-голубой */
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.list-group-item {
+  background-color: transparent;
+  color: #004085;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.list-group-item a {
+  color: #004085;
+  text-decoration: none;
+}
+
+.list-group-item:hover {
+  background-color: #cfe2ff;
+  border-radius: 5px;
+}
+
+/* === Tables === */
+.table {
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #e9f2fb;
+  color: #212529;
+  border-color: #dee2e6;
+}
+
+.table td {
+  border-color: #dee2e6;
+}
+
+/* === Heads === */
+h1, h2 {
+  color: #212529;
+}
+
+.search-form {
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.search-form button {
+  height: 45px;
+  width: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  /*margin-top: -15px; !* <-- move a little bit higher *!*/
+}
+
+.mb-3 {
+  margin-bottom: 0px !important;
+}
+
+.sidebar {
+  width: 230px;
+}
+
+.sidebar-link {
+  color: #333;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: 0.2s;
+  font-weight: 500;
+}
+
+.sidebar-link:hover {
+  background: #f0f0f5;
+  text-decoration: none;
+  transform: translateX(4px);
+}
+
+.sidebar-menu .nav-link.active {
+  background: #0d6efd;
+  color: #fff !important;
+}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Customer List</h1>
+        <a href="{% url 'nutrition:customer-create' %}" class="btn btn-primary">Create Customer</a>
+    </div>
+
+    {% include "includes/search_form.html" %}
+
+    {% if customer_list %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Last name</th>
+                    <th>Age</th>
+                    <th>Height</th>
+                    <th>Weight</th>
+                    <th>Gender</th>
+                    <th>Activity level</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customer_list %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>
+                        <a href="{{ customer.get_absolute_url }}">
+                            {{ customer.username }}
+                            {% if customer == request.user %} (Me){% endif %}
+                        </a>
+                    </td>
+                    <td>{{ customer.age }}</td>
+                    <td>{{ customer.height }}</td>
+                    <td>{{ customer.weight }}</td>
+                    <td>{{ customer.gender }}</td>
+                    <td>{{ customer.activity_level }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">There are no customers in the app database.</div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Meal №{{ meal.id }}</h1>
+
+        <div>
+            <a href="{% url 'nutrition:meal-update' pk=meal.id %}" class="btn btn-warning me-2">
+                Update
+            </a>
+            <a href="{% url 'nutrition:meal-delete' pk=meal.id %}" class="btn btn-danger">
+                Delete
+            </a>
+        </div>
+    </div>
+
+    {% if request.user != meal.customer %}
+        <div class="mb-3">
+            {% if request.user in meal.shared_with.all %}
+                <a href="{% url 'nutrition:toggle-meal-assign' pk=meal.id %}" class="btn btn-danger">
+                    Remove from my meals
+                </a>
+            {% else %}
+                <a href="{% url 'nutrition:toggle-meal-assign' pk=meal.id %}" class="btn btn-success">
+                    Add to my meals
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <h4 class="mt-4">General info</h4>
+    <ul>
+        <li><strong>Date:</strong> {{ meal.date|date:"Y-m-d" }}</li>
+        <li><strong>Product:</strong> {{ meal.product.name }}</li>
+        <li><strong>Quantity:</strong> {{ meal.quantity }} g</li>
+    </ul>
+
+    <h4 class="mt-4">Nutritional info</h4>
+    <ul>
+        <li><strong>Calories total:</strong> {{ meal.total_calories }} kcal</li>
+        <li><strong>Proteins total:</strong> {{ meal.total_proteins }} g</li>
+        <li><strong>Fats total:</strong> {{ meal.total_fats }} g</li>
+        <li><strong>Carbs total:</strong> {{ meal.total_carbs }} g</li>
+    </ul>
+
+</div>
+{% endblock %}

@@ -1,0 +1,259 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q, Case, When, Value, IntegerField
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views import generic
+
+from nutrition.models import Customer, Meal, Category, Product
+from .forms import (
+    CustomerSearchForm,
+    CustomerCreationForm,
+    CustomerUpdateForm,
+    MealSearchForm,
+    ProductSearchForm,
+    CategorySearchForm,
+    MealForm,
+    ProductForm
+)
+
+
+@login_required
+def index(request):
+    """View function for the home page of the site."""
+
+    num_customers = Customer.objects.count()
+    num_products = Product.objects.count()
+    num_category = Category.objects.count()
+    num_meals = Meal.objects.count()
+
+
+    num_visits = request.session.get("num_visits", 0)
+    request.session["num_visits"] = num_visits + 1
+
+    context = {
+        "num_customers": num_customers,
+        "num_products": num_products,
+        "num_category": num_category,
+        "num_meals": num_meals,
+        "num_visits": num_visits + 1,
+    }
+
+    return render(request, "nutrition/index.html", context=context)
+
+
+class CustomerListView(LoginRequiredMixin, generic.ListView):
+    model = Customer
+    context_object_name = "customer_list"
+    paginate_by = 5
+
+    def get_context_data(
+        self, *, object_list=None, **kwargs
+    ):
+        context = super(CustomerListView, self).get_context_data(**kwargs)
+        username = self.request.GET.get("username", "")
+        context["search_form"] = CustomerSearchForm(
+            initial={"username": username}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(is_superuser=False)
+        form = CustomerSearchForm(self.request.GET)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            if queryset:
+                queryset = queryset.filter(username__icontains=username)
+        return queryset
+
+
+class CustomerDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Customer
+    queryset = Customer.objects.all().prefetch_related("meals__product")
+
+
+class CustomerCreateView(generic.CreateView):
+    model = Customer
+    form_class = CustomerCreationForm
+
+
+class CustomerUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Customer
+    form_class = CustomerUpdateForm
+    success_url = reverse_lazy("nutrition:customer-list")
+
+
+class CustomerDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Customer
+    success_url = reverse_lazy("nutrition:customer-list")
+
+
+class CategoryListView(LoginRequiredMixin, generic.ListView):
+    model = Category
+    context_object_name = "category_list"
+    paginate_by = 5
+
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        form = CategorySearchForm(self.request.GET)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+        return queryset
+
+    def get_context_data(
+        self, *, object_list=None, **kwargs
+    ):
+        context = super(CategoryListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = CategorySearchForm(
+            initial={"name": name}
+        )
+        return context
+
+
+class CategoryDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Category
+    queryset = Category.objects.all().prefetch_related("products")
+
+
+class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Category
+    fields = "__all__"
+    success_url = reverse_lazy("nutrition:category-list")
+
+
+class CategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Category
+    fields = "__all__"
+    success_url = reverse_lazy("nutrition:category-list")
+
+
+class CategoryDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Category
+    success_url = reverse_lazy("nutrition:category-list")
+
+
+class ProductListView(LoginRequiredMixin, generic.ListView):
+    model = Product
+    context_object_name = "product_list"
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        form = ProductSearchForm(self.request.GET)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ProductListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = ProductSearchForm(
+            initial={"name": name}
+        )
+        return context
+
+
+class ProductDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Product
+    queryset = Product.objects.all().prefetch_related("meals")
+    context_object_name = "product"
+
+
+class ProductCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy("nutrition:product-list")
+
+
+class ProductUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy("nutrition:product-list")
+
+
+class ProductDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Product
+    success_url = reverse_lazy("nutrition:product-list")
+
+
+class MealListView(LoginRequiredMixin, generic.ListView):
+    model = Meal
+    context_object_name = "meal_list"
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = self.request.user
+        # filters meals of each user, plus all the added by the user meals of other users!
+        queryset = (
+            Meal.objects.filter(Q(customer=user) | Q(shared_with=user))
+            .annotate(
+                is_owner=Case(
+                    When(customer=user, then=Value(0)),  # first your meals
+                    default=Value(1),  # then meals of other users
+                    output_field=IntegerField(),
+                )
+            )
+            .order_by("is_owner", "-date")  # first your meals, then ordered by data, the newest on the top
+            .distinct()
+        )
+
+        return queryset
+
+
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(MealListView, self).get_context_data(**kwargs)
+        date = self.request.GET.get("date", "")
+        context["search_form"] = MealSearchForm(
+            initial={"date": date}
+        )
+        return context
+
+
+class MealDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Meal
+    queryset = Meal.objects.all().select_related("product", "customer")
+
+
+class MealCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Meal
+    form_class = MealForm
+    success_url = reverse_lazy("nutrition:meal-list")
+
+    def form_valid(self, form):
+        form.instance.customer = self.request.user
+        return super().form_valid(form)
+
+
+class MealUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Meal
+    form_class = MealForm
+    success_url = reverse_lazy("nutrition:meal-list")
+
+    def form_valid(self, form):
+        form.instance.customer = self.request.user
+        return super().form_valid(form)
+
+
+class MealDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Meal
+    success_url = reverse_lazy("nutrition:meal-list")
+
+
+@login_required
+def toggle_meal_assign(request, pk):
+    meal = get_object_or_404(Meal, pk=pk)
+    user = request.user
+
+    if user in meal.shared_with.all():
+        meal.shared_with.remove(user)
+    else:
+        meal.shared_with.add(user)
+
+    return redirect("nutrition:meal-detail", pk=meal.pk)

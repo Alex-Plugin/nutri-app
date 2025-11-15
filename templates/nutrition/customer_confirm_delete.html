@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Are you sure you want to delete customer?</h2>
+  <form action="" method="post">
+    {% csrf_token %}
+
+    <input type="submit" value="Yes, delete" class="btn btn-danger">
+    <button type="button" class="btn btn-secondary" onclick="history.back()">
+      No, I changed my mind
+    </button>
+  </form>
+{% endblock %}
