@@ -8,7 +8,7 @@
           👤 <a href="{{ user.get_absolute_url }}" class="text-decoration-none">{{ user.get_username }}</a>
         </span>
       </div>
-      <a href="{% url 'logout'%}?next={{request.path}}" class="btn btn-outline-danger w-100 btn-sm">
+      <a href="{% url 'logout' %}" class="btn btn-outline-danger w-100 btn-sm">
         Logout
       </a>
     {% else %}
