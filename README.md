@@ -5,6 +5,18 @@ The system allows users to create and categorize products, log meals, calculate 
 
 ---
 
+## 🌐 Live Demo
+The project is deployed and available online:
+
+### 👉 Live App
+https://nutri-app-5wjm.onrender.com
+
+## 👤 Test User
+You can explore the application using a test account:
+
+login: user  
+password: user12345
+
 ## 🚀 Features
 
 ### 🔐 Authentication & User Management
